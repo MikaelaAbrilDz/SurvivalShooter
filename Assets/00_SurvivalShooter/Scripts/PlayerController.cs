@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
             agent.SetDestination(navHit.position);
         }
     }
-    void Shoor()
+    void Shoot()
     {
 
     }
