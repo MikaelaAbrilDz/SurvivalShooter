@@ -7,9 +7,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask movableMask;
     [SerializeField] LayerMask enemyMask;
 
+    [SerializeField] PlayerBullet bullet;
+
     EnemyBehaviour selectedEnemy;
 
     float attackRange = 9;
+    float attackCoolDown = 0.6f;
     bool isInAttackRange;
 
     NavMeshAgent agent;
@@ -17,6 +20,8 @@ public class PlayerController : MonoBehaviour
     InputAction mMainClickAction;
 
     Vector3 mousePos;
+
+    float timer;
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -27,6 +32,13 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
+        timer += Time.deltaTime;
+        if (isInAttackRange && timer >= attackCoolDown)
+        {
+            timer = 0;
+            Shoot(selectedEnemy.transform.position);
+        }
+
         mousePos = Mouse.current.position.value;
         if (mMainClickAction.WasPressedThisFrame()) MoveTo();
 
@@ -34,6 +46,7 @@ public class PlayerController : MonoBehaviour
         {
             if ((selectedEnemy.transform.position - transform.position).magnitude <= attackRange)
             {
+                if (!isInAttackRange) timer = attackCoolDown;
                 isInAttackRange = true;
                 agent.SetDestination(transform.position);
             }
@@ -67,8 +80,9 @@ public class PlayerController : MonoBehaviour
             agent.SetDestination(navHit.position);
         }
     }
-    void Shoot()
+    void Shoot(Vector3 pos)
     {
-
+        LTDescr tween = LeanTween.move(bullet.gameObject, pos + Vector3.up, attackCoolDown/5);
+        bullet.Shoot(tween, 25, transform.position + Vector3.up);
     }
 }

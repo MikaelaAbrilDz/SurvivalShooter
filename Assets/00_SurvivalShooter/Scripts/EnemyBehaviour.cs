@@ -6,6 +6,8 @@ public class EnemyBehaviour : MonoBehaviour
     public GameObject target;
     
     NavMeshAgent agent;
+
+    int life = 100;
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -15,5 +17,11 @@ public class EnemyBehaviour : MonoBehaviour
         NavMeshHit navHit;
         NavMesh.SamplePosition(target.transform.position, out navHit, 5, NavMesh.AllAreas);
         agent.SetDestination(navHit.position);
+    }
+
+    public void GetDamaged(int damage)
+    {
+        life -= damage;
+        if (life <= 0) Destroy(gameObject);
     }
 }
