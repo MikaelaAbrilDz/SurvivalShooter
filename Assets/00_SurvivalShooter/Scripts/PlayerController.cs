@@ -7,8 +7,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask movableMask;
     [SerializeField] LayerMask enemyMask;
 
-    [SerializeField] PlayerBullet bullet;
-
     EnemyBehaviour selectedEnemy;
 
     float attackRange = 9;
@@ -17,7 +15,13 @@ public class PlayerController : MonoBehaviour
 
     NavMeshAgent agent;
     PlayerMouseInput mInput;
+    
     InputAction mMainClickAction;
+    InputAction[] mSwitchWeaponActions;
+    
+    [SerializeField] GameObject[] weapons = new GameObject[3];
+    IWeapon currentWeapon;
+    
 
     Vector3 mousePos;
 
@@ -29,14 +33,21 @@ public class PlayerController : MonoBehaviour
         mInput.Player.Enable();
 
         mMainClickAction = mInput.Player.MainClick;
+        mSwitchWeaponActions = new InputAction[3]
+        {
+            mInput.Player.First,
+            mInput.Player.Second,
+            mInput.Player.Third,
+        };
     }
     void Update()
     {
+        currentWeapon = weapons[0].GetComponent<IWeapon>();
         timer += Time.deltaTime;
         if (isInAttackRange && timer >= attackCoolDown)
         {
             timer = 0;
-            Shoot(selectedEnemy.transform.position);
+            Shoot();
         }
 
         mousePos = Mouse.current.position.value;
@@ -80,9 +91,18 @@ public class PlayerController : MonoBehaviour
             agent.SetDestination(navHit.position);
         }
     }
-    void Shoot(Vector3 pos)
+    void Shoot()
     {
-        LTDescr tween = LeanTween.move(bullet.gameObject, pos + Vector3.up, attackCoolDown/5);
-        bullet.Shoot(tween, 25, transform.position + Vector3.up);
+        currentWeapon.Shoot(transform, selectedEnemy);
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (isInAttackRange) Gizmos.color = Color.red; else Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.color = Color.blue;
+        if (agent != null) Gizmos.DrawSphere(agent.destination, 0.5f);
+        Gizmos.color = Color.red;
+        if (selectedEnemy != null && selectedEnemy.GetComponentInChildren<MeshFilter>() != null) Gizmos.DrawWireMesh(selectedEnemy.GetComponentInChildren<MeshFilter>().mesh, 0, selectedEnemy.transform.position + Vector3.up);
     }
 }
