@@ -24,6 +24,10 @@ public class WeaponController : MonoBehaviour, IWeapon
     {
         return weaponData.damage;
     }
+    public float GetCooldown()
+    {
+        return weaponData.fireRate;
+    }
     public void SwitchWeapon()
     {
 

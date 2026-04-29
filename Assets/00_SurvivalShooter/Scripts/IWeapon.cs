@@ -18,6 +18,10 @@ public interface IWeapon
     {
         return 10;
     }
+    public float GetCooldown()
+    {
+        return 10f;
+    }
     public void SwitchWeapon()
     {
 

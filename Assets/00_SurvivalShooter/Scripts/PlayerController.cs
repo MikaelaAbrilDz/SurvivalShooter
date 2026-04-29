@@ -9,8 +9,6 @@ public class PlayerController : MonoBehaviour
 
     EnemyBehaviour selectedEnemy;
 
-    float attackRange = 9;
-    float attackCoolDown = 0.6f;
     bool isInAttackRange;
 
     NavMeshAgent agent;
@@ -21,13 +19,13 @@ public class PlayerController : MonoBehaviour
     
     [SerializeField] GameObject[] weapons = new GameObject[3];
     IWeapon currentWeapon;
-    
-
+   
     Vector3 mousePos;
 
     float timer;
     void Awake()
     {
+        currentWeapon = weapons[0].GetComponent<IWeapon>();
         agent = GetComponent<NavMeshAgent>();
         mInput = new PlayerMouseInput();
         mInput.Player.Enable();
@@ -42,9 +40,9 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        currentWeapon = weapons[0].GetComponent<IWeapon>();
         timer += Time.deltaTime;
-        if (isInAttackRange && timer >= attackCoolDown)
+        print(timer + " vs " + currentWeapon.GetCooldown());
+        if (isInAttackRange && timer >= currentWeapon.GetCooldown())
         {
             timer = 0;
             Shoot();
@@ -55,9 +53,9 @@ public class PlayerController : MonoBehaviour
 
         if (selectedEnemy != null)
         {
-            if ((selectedEnemy.transform.position - transform.position).magnitude <= attackRange)
+            if ((selectedEnemy.transform.position - transform.position).magnitude <= currentWeapon.GetRange())
             {
-                if (!isInAttackRange) timer = attackCoolDown;
+                if (!isInAttackRange) timer = currentWeapon.GetCooldown();
                 isInAttackRange = true;
                 agent.SetDestination(transform.position);
             }
@@ -68,6 +66,19 @@ public class PlayerController : MonoBehaviour
             }
         }
         else isInAttackRange = false;
+
+        for (int i = 0; i < mSwitchWeaponActions.Length; i++)
+        {
+            if (mSwitchWeaponActions[i].WasPressedThisFrame())
+            {
+                foreach (GameObject weapon in weapons)
+                {
+                    weapon.SetActive(false);
+                }
+                weapons[i].SetActive(true);
+                currentWeapon = weapons[i].GetComponent<IWeapon>();
+            }
+        }
     }
 
     void MoveTo()
@@ -99,7 +110,7 @@ public class PlayerController : MonoBehaviour
     private void OnDrawGizmos()
     {
         if (isInAttackRange) Gizmos.color = Color.red; else Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.DrawWireSphere(transform.position, currentWeapon.GetRange());
         Gizmos.color = Color.blue;
         if (agent != null) Gizmos.DrawSphere(agent.destination, 0.5f);
         Gizmos.color = Color.red;

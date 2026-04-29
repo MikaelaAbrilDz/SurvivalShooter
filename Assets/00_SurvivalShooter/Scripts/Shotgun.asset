@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   damage: 35
-  range: 5
+  range: 12
   explosionRange: 3
   reloadTime: 0
-  fireRate: 3
+  fireRate: 1.2
   maxAmmo: 0
