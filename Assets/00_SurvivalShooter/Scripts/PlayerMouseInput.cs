@@ -127,6 +127,24 @@ public partial class @PlayerMouseInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Save&Quit"",
+                    ""type"": ""Button"",
+                    ""id"": ""28d3ab6c-5603-4bc5-8e38-c318f8d56550"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reset"",
+                    ""type"": ""Button"",
+                    ""id"": ""483d89b0-0b6b-420f-a67e-bf3099385da6"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -173,6 +191,28 @@ public partial class @PlayerMouseInput: IInputActionCollection2, IDisposable
                     ""action"": ""Third"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4a8087e5-73ae-41c8-85d0-f91ccf5f6720"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Save&Quit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""71d02c7c-9144-4b7d-a7ce-edd9f5e76625"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -185,6 +225,8 @@ public partial class @PlayerMouseInput: IInputActionCollection2, IDisposable
         m_Player_First = m_Player.FindAction("First", throwIfNotFound: true);
         m_Player_Second = m_Player.FindAction("Second", throwIfNotFound: true);
         m_Player_Third = m_Player.FindAction("Third", throwIfNotFound: true);
+        m_Player_SaveQuit = m_Player.FindAction("Save&Quit", throwIfNotFound: true);
+        m_Player_Reset = m_Player.FindAction("Reset", throwIfNotFound: true);
     }
 
     ~@PlayerMouseInput()
@@ -269,6 +311,8 @@ public partial class @PlayerMouseInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_First;
     private readonly InputAction m_Player_Second;
     private readonly InputAction m_Player_Third;
+    private readonly InputAction m_Player_SaveQuit;
+    private readonly InputAction m_Player_Reset;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -296,6 +340,14 @@ public partial class @PlayerMouseInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Third".
         /// </summary>
         public InputAction @Third => m_Wrapper.m_Player_Third;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SaveQuit".
+        /// </summary>
+        public InputAction @SaveQuit => m_Wrapper.m_Player_SaveQuit;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Reset".
+        /// </summary>
+        public InputAction @Reset => m_Wrapper.m_Player_Reset;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -334,6 +386,12 @@ public partial class @PlayerMouseInput: IInputActionCollection2, IDisposable
             @Third.started += instance.OnThird;
             @Third.performed += instance.OnThird;
             @Third.canceled += instance.OnThird;
+            @SaveQuit.started += instance.OnSaveQuit;
+            @SaveQuit.performed += instance.OnSaveQuit;
+            @SaveQuit.canceled += instance.OnSaveQuit;
+            @Reset.started += instance.OnReset;
+            @Reset.performed += instance.OnReset;
+            @Reset.canceled += instance.OnReset;
         }
 
         /// <summary>
@@ -357,6 +415,12 @@ public partial class @PlayerMouseInput: IInputActionCollection2, IDisposable
             @Third.started -= instance.OnThird;
             @Third.performed -= instance.OnThird;
             @Third.canceled -= instance.OnThird;
+            @SaveQuit.started -= instance.OnSaveQuit;
+            @SaveQuit.performed -= instance.OnSaveQuit;
+            @SaveQuit.canceled -= instance.OnSaveQuit;
+            @Reset.started -= instance.OnReset;
+            @Reset.performed -= instance.OnReset;
+            @Reset.canceled -= instance.OnReset;
         }
 
         /// <summary>
@@ -425,5 +489,19 @@ public partial class @PlayerMouseInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnThird(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Save&Quit" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSaveQuit(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Reset" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnReset(InputAction.CallbackContext context);
     }
 }

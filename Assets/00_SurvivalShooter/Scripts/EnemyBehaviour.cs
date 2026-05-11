@@ -5,7 +5,7 @@ public class EnemyBehaviour : MonoBehaviour
 {
     public GameObject target;
     
-    NavMeshAgent agent;
+    [HideInInspector] public NavMeshAgent agent;
 
     int life = 100;
     void Awake()

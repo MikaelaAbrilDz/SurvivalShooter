@@ -7,15 +7,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask movableMask;
     [SerializeField] LayerMask enemyMask;
 
+    [SerializeField] GameData gameData;
+
     EnemyBehaviour selectedEnemy;
 
     bool isInAttackRange;
 
-    NavMeshAgent agent;
+    [HideInInspector] public NavMeshAgent agent;
     PlayerMouseInput mInput;
     
     InputAction mMainClickAction;
     InputAction[] mSwitchWeaponActions;
+    InputAction m_saveAction;
+    InputAction m_deleteAction;
     
     [SerializeField] GameObject[] weapons = new GameObject[3];
     IWeapon currentWeapon;
@@ -37,6 +41,14 @@ public class PlayerController : MonoBehaviour
             mInput.Player.Second,
             mInput.Player.Third,
         };
+        m_saveAction = mInput.Player.SaveQuit;
+        m_deleteAction = mInput.Player.Reset;
+
+        if (SaveSystem.Load(gameData, gameObject))
+        {
+            agent.speed = agent.speed * gameData.playerSpeedMultiplier;
+            transform.position = gameData.playerPosition;
+        }
     }
     void Update()
     {
@@ -79,6 +91,21 @@ public class PlayerController : MonoBehaviour
                 currentWeapon = weapons[i].GetComponent<IWeapon>();
             }
         }
+
+        if (m_saveAction.WasPressedThisFrame()) SaveAndQuit();
+        if (m_deleteAction.WasPressedThisFrame()) ResetGame();
+    }
+    void SaveAndQuit()
+    {
+        gameData.playerPosition = transform.position;
+        SaveSystem.Save(gameData);
+        Application.Quit();
+    }
+    void ResetGame()
+    {
+        SaveSystem.DeleteSave();
+        gameData.Reset();
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
 
     void MoveTo()
