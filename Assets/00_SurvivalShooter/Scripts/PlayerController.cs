@@ -46,8 +46,11 @@ public class PlayerController : MonoBehaviour
 
         if (SaveSystem.Load(gameData, gameObject))
         {
-            agent.speed = agent.speed * gameData.playerSpeedMultiplier;
             transform.position = gameData.playerPosition;
+            for (int i = 0; i < gameData.enemyPositions.Length; i++)
+            {
+                FindAnyObjectByType<EnemySpawner>().RestoreEnemy(gameData.enemyPositions[i], gameData.enemyHealths[i]);
+            }
         }
     }
     void Update()
@@ -98,6 +101,17 @@ public class PlayerController : MonoBehaviour
     void SaveAndQuit()
     {
         gameData.playerPosition = transform.position;
+
+        EnemyBehaviour[] enemies = FindObjectsByType<EnemyBehaviour>(FindObjectsSortMode.None);
+        gameData.enemyPositions = new Vector3[enemies.Length];
+        gameData.enemyHealths = new int[enemies.Length];
+
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            gameData.enemyPositions[i] = enemies[i].transform.position;
+            gameData.enemyHealths[i] = enemies[i].life;
+        }
+
         SaveSystem.Save(gameData);
         Application.Quit();
     }

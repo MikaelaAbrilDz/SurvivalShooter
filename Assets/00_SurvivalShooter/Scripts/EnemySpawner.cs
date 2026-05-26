@@ -30,6 +30,16 @@ public class EnemySpawner : MonoBehaviour
 
         lastEnemy.GetComponent<EnemyBehaviour>().target = player;
     }
+
+    public void RestoreEnemy(Vector3 position, int health)
+    {
+        if (enemyPrefab == null) return;
+
+        GameObject lastEnemy = Instantiate(enemyPrefab, position, Quaternion.identity);
+
+        lastEnemy.GetComponent<EnemyBehaviour>().target = player;
+        lastEnemy.GetComponent<EnemyBehaviour>().life = health;
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;

@@ -8,13 +8,9 @@ public class SaveSystem : MonoBehaviour
     [System.Serializable] class SaveData
     {
         public Vector3 playerPosition;
-        public float playerSpeedMultiplier;
 
-        public float enemySpeedMultiplier;
-
-
-        public bool playerSpeedCollected;
-        public bool enemySlowCollected;
+        public Vector3[] enemyPositions;
+        public int[] enemyHealths;
     }
 
     public static void Save(GameData datasave)
@@ -22,12 +18,9 @@ public class SaveSystem : MonoBehaviour
         SaveData data = new SaveData();
 
         data.playerPosition = datasave.playerPosition;
-        data.playerSpeedMultiplier = datasave.playerSpeedMultiplier;
 
-        data.enemySpeedMultiplier = datasave.enemySpeedMultiplier;
-
-        data.playerSpeedCollected = datasave.playerSpeedCollected;
-        data.enemySlowCollected = datasave.enemySlowCollected;
+        data.enemyPositions = datasave.enemyPositions;
+        data.enemyHealths = datasave.enemyHealths;
 
         string json = JsonUtility.ToJson(data, true);
 
@@ -44,12 +37,12 @@ public class SaveSystem : MonoBehaviour
         SaveData data = JsonUtility.FromJson<SaveData>(json);
 
         datasave.playerPosition = data.playerPosition;
-        datasave.playerSpeedMultiplier = data.playerSpeedMultiplier;
 
-        datasave.enemySpeedMultiplier = data.enemySpeedMultiplier;
-
-        datasave.playerSpeedCollected = data.playerSpeedCollected;
-        datasave.enemySlowCollected = data.enemySlowCollected;
+        for (int i = 0; i < datasave.enemyPositions.Length; i++)
+        {
+            datasave.enemyPositions[i] = data.enemyPositions[i];
+            datasave.enemyHealths[i] = data.enemyHealths[i];
+        }
 
         print("PARTIDA CARGADA");
 

@@ -7,7 +7,7 @@ public class EnemyBehaviour : MonoBehaviour
     
     [HideInInspector] public NavMeshAgent agent;
 
-    int life = 100;
+    public int life = 100;
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
