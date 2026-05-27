@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
 
         if (SaveSystem.Load(gameData, gameObject))
         {
-            transform.position = gameData.playerPosition;
+            agent.Warp(gameData.playerPosition);
             for (int i = 0; i < gameData.enemyPositions.Length; i++)
             {
                 FindAnyObjectByType<EnemySpawner>().RestoreEnemy(gameData.enemyPositions[i], gameData.enemyHealths[i]);
@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour
     {
         gameData.playerPosition = transform.position;
 
-        EnemyBehaviour[] enemies = FindObjectsByType<EnemyBehaviour>(FindObjectsSortMode.None);
+        EnemyBehaviour[] enemies = FindObjectsByType<EnemyBehaviour>();
         gameData.enemyPositions = new Vector3[enemies.Length];
         gameData.enemyHealths = new int[enemies.Length];
 
