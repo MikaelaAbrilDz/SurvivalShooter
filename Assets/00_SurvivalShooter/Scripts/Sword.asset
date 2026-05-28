@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2ea4c64a200b1945abe690f25ad85d9, type: 3}
-  m_Name: Pistol
-  m_EditorClassIdentifier: Assembly-CSharp::WeaponData
-  damage: 25
-  range: 16
-  explosionRange: 0.5
-  reloadTime: 0
-  fireRate: 0.5
-  maxAmmo: 0
+  m_Script: {fileID: 0}
+  m_Name: Sword
+  m_EditorClassIdentifier: Assembly-CSharp::SwordData
+  damage: 45
+  range: 3
+  fireRate: 0.75

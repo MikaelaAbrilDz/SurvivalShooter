@@ -4,6 +4,8 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] int currentLife = 100;
+
     [SerializeField] LayerMask movableMask;
     [SerializeField] LayerMask enemyMask;
 
@@ -97,6 +99,8 @@ public class PlayerController : MonoBehaviour
 
         if (m_saveAction.WasPressedThisFrame()) SaveAndQuit();
         if (m_deleteAction.WasPressedThisFrame()) ResetGame();
+
+        if (currentLife <= 0) gameObject.SetActive(false);
     }
     void SaveAndQuit()
     {
@@ -156,5 +160,17 @@ public class PlayerController : MonoBehaviour
         if (agent != null) Gizmos.DrawSphere(agent.destination, 0.5f);
         Gizmos.color = Color.red;
         if (selectedEnemy != null && selectedEnemy.GetComponentInChildren<MeshFilter>() != null) Gizmos.DrawWireMesh(selectedEnemy.GetComponentInChildren<MeshFilter>().mesh, 0, selectedEnemy.transform.position + Vector3.up);
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            other.gameObject.GetComponent<EnemyBehaviour>().cooldown -= Time.deltaTime;
+            if (other.gameObject.GetComponent<EnemyBehaviour>().cooldown < 0)
+            {
+                currentLife -= other.gameObject.GetComponent<EnemyBehaviour>().damage;
+                other.gameObject.GetComponent<EnemyBehaviour>().cooldown = 1;
+            }
+        }
     }
 }

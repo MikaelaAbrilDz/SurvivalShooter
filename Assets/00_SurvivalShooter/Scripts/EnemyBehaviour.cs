@@ -7,6 +7,8 @@ public class EnemyBehaviour : MonoBehaviour
     
     [HideInInspector] public NavMeshAgent agent;
 
+    public float cooldown = 0.2f;
+    public int damage = 5;
     public int life = 100;
     void Awake()
     {

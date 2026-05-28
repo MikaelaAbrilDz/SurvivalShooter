@@ -1,16 +1,16 @@
 using UnityEngine;
 using static UnityEditor.PlayerSettings;
 
-public class WeaponController : MonoBehaviour, IWeapon
+public class MagicController : MonoBehaviour, IWeapon
 {
-    [SerializeField] WeaponData weaponData;
+    [SerializeField] MagicData magicData;
     [SerializeField] PlayerBullet bullet;
     [SerializeField] Transform shootPoint;
     public void Shoot(Transform origin, EnemyBehaviour target)
     {
         origin.LookAt(target.transform);
-        LTDescr tween = LeanTween.move(bullet.gameObject, target.transform.position + Vector3.up, weaponData.fireRate / 5f);
-        bullet.Shoot(tween, weaponData.damage, weaponData.explosionRange);
+        LTDescr tween = LeanTween.move(bullet.gameObject, target.transform.position + Vector3.up, magicData.fireRate / 5f);
+        bullet.Shoot(tween, magicData.damage, magicData.explosionRange);
     }
     public void Reload()
     {
@@ -18,15 +18,15 @@ public class WeaponController : MonoBehaviour, IWeapon
     }
     public float GetRange()
     {
-        return weaponData.range;
+        return magicData.range;
     }
     public int GetDamage()
     {
-        return weaponData.damage;
+        return magicData.damage;
     }
     public float GetCooldown()
     {
-        return weaponData.fireRate;
+        return magicData.fireRate;
     }
     public void SwitchWeapon()
     {
