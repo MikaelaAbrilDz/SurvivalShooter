@@ -37,11 +37,12 @@ public class PlayerController : MonoBehaviour
         mInput.Player.Enable();
 
         mMainClickAction = mInput.Player.MainClick;
-        mSwitchWeaponActions = new InputAction[3]
+        mSwitchWeaponActions = new InputAction[4]
         {
             mInput.Player.First,
             mInput.Player.Second,
             mInput.Player.Third,
+            mInput.Player.Fourth,
         };
         m_saveAction = mInput.Player.SaveQuit;
         m_deleteAction = mInput.Player.Reset;
@@ -49,6 +50,7 @@ public class PlayerController : MonoBehaviour
         if (SaveSystem.Load(gameData, gameObject))
         {
             agent.Warp(gameData.playerPosition);
+            currentLife = gameData.playerLife;
             for (int i = 0; i < gameData.enemyPositions.Length; i++)
             {
                 FindAnyObjectByType<EnemySpawner>().RestoreEnemy(gameData.enemyPositions[i], gameData.enemyHealths[i]);
@@ -105,6 +107,7 @@ public class PlayerController : MonoBehaviour
     void SaveAndQuit()
     {
         gameData.playerPosition = transform.position;
+        gameData.playerLife = currentLife;
 
         EnemyBehaviour[] enemies = FindObjectsByType<EnemyBehaviour>();
         gameData.enemyPositions = new Vector3[enemies.Length];

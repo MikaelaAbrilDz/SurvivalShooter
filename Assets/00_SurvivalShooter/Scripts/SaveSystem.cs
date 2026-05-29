@@ -8,6 +8,7 @@ public class SaveSystem : MonoBehaviour
     [System.Serializable] class SaveData
     {
         public Vector3 playerPosition;
+        public int playerLife;
 
         public Vector3[] enemyPositions;
         public int[] enemyHealths;
@@ -18,6 +19,7 @@ public class SaveSystem : MonoBehaviour
         SaveData data = new SaveData();
 
         data.playerPosition = datasave.playerPosition;
+        data.playerLife = datasave.playerLife;
 
         data.enemyPositions = datasave.enemyPositions;
         data.enemyHealths = datasave.enemyHealths;
@@ -37,6 +39,7 @@ public class SaveSystem : MonoBehaviour
         SaveData data = JsonUtility.FromJson<SaveData>(json);
 
         datasave.playerPosition = data.playerPosition;
+        datasave.playerLife = data.playerLife;
 
         for (int i = 0; i < datasave.enemyPositions.Length; i++)
         {

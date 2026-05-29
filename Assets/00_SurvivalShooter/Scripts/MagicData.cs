@@ -17,3 +17,18 @@ public class SwordData : ScriptableObject
     public float range;
     public float fireRate;
 }
+[CreateAssetMenu(fileName = "BowData", menuName = "Scriptable Objects/BowData")]
+public class BowData : ScriptableObject
+{
+    public int damage;
+    public float range;
+    public float fireRate;
+}
+[CreateAssetMenu(fileName = "ArrowTrailData", menuName = "Scriptable Objects/ArrowTrailData")]
+public class ArrowTrailData : ScriptableObject
+{
+    public Material material;
+    public Gradient gradient;
+    public AnimationCurve curve;
+    public float duration;
+}

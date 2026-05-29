@@ -43,6 +43,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Fourth",
+                    "type": "Button",
+                    "id": "179254c6-4db9-49df-8cfd-220545d2d1f0",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Save&Quit",
                     "type": "Button",
                     "id": "28d3ab6c-5603-4bc5-8e38-c318f8d56550",
@@ -103,6 +112,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Third",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1fd6d774-508e-48aa-b6c8-e01202c43826",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fourth",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

@@ -129,6 +129,15 @@ public partial class @PlayerMouseInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Fourth"",
+                    ""type"": ""Button"",
+                    ""id"": ""179254c6-4db9-49df-8cfd-220545d2d1f0"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Save&Quit"",
                     ""type"": ""Button"",
                     ""id"": ""28d3ab6c-5603-4bc5-8e38-c318f8d56550"",
@@ -194,6 +203,17 @@ public partial class @PlayerMouseInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""1fd6d774-508e-48aa-b6c8-e01202c43826"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fourth"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""4a8087e5-73ae-41c8-85d0-f91ccf5f6720"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
@@ -225,6 +245,7 @@ public partial class @PlayerMouseInput: IInputActionCollection2, IDisposable
         m_Player_First = m_Player.FindAction("First", throwIfNotFound: true);
         m_Player_Second = m_Player.FindAction("Second", throwIfNotFound: true);
         m_Player_Third = m_Player.FindAction("Third", throwIfNotFound: true);
+        m_Player_Fourth = m_Player.FindAction("Fourth", throwIfNotFound: true);
         m_Player_SaveQuit = m_Player.FindAction("Save&Quit", throwIfNotFound: true);
         m_Player_Reset = m_Player.FindAction("Reset", throwIfNotFound: true);
     }
@@ -311,6 +332,7 @@ public partial class @PlayerMouseInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_First;
     private readonly InputAction m_Player_Second;
     private readonly InputAction m_Player_Third;
+    private readonly InputAction m_Player_Fourth;
     private readonly InputAction m_Player_SaveQuit;
     private readonly InputAction m_Player_Reset;
     /// <summary>
@@ -340,6 +362,10 @@ public partial class @PlayerMouseInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Third".
         /// </summary>
         public InputAction @Third => m_Wrapper.m_Player_Third;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Fourth".
+        /// </summary>
+        public InputAction @Fourth => m_Wrapper.m_Player_Fourth;
         /// <summary>
         /// Provides access to the underlying input action "Player/SaveQuit".
         /// </summary>
@@ -386,6 +412,9 @@ public partial class @PlayerMouseInput: IInputActionCollection2, IDisposable
             @Third.started += instance.OnThird;
             @Third.performed += instance.OnThird;
             @Third.canceled += instance.OnThird;
+            @Fourth.started += instance.OnFourth;
+            @Fourth.performed += instance.OnFourth;
+            @Fourth.canceled += instance.OnFourth;
             @SaveQuit.started += instance.OnSaveQuit;
             @SaveQuit.performed += instance.OnSaveQuit;
             @SaveQuit.canceled += instance.OnSaveQuit;
@@ -415,6 +444,9 @@ public partial class @PlayerMouseInput: IInputActionCollection2, IDisposable
             @Third.started -= instance.OnThird;
             @Third.performed -= instance.OnThird;
             @Third.canceled -= instance.OnThird;
+            @Fourth.started -= instance.OnFourth;
+            @Fourth.performed -= instance.OnFourth;
+            @Fourth.canceled -= instance.OnFourth;
             @SaveQuit.started -= instance.OnSaveQuit;
             @SaveQuit.performed -= instance.OnSaveQuit;
             @SaveQuit.canceled -= instance.OnSaveQuit;
@@ -489,6 +521,13 @@ public partial class @PlayerMouseInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnThird(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Fourth" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnFourth(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Save&Quit" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
